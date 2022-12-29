@@ -17,16 +17,60 @@ async function scrapeData() {
     adsHtmlList.each(function (idx, el) {
       console.log(idx);
 
-      const name = $(el)
+      const adId = $(el).data("testid");
+
+      const adTitle = $(el)
         .children("article")
         .children("section")
         .children("div")
         .children("h2")
         .text();
-      console.log(name);
+
+      const adPrices = $(el)
+        .children("article")
+        .children("section")
+        .children("section")
+        .children("div")
+        .text();
+
+      const adImage = $(el)
+        .children("article")
+        .children("img")
+        .eq(0)
+        .attr("src");
+
+      const adOthersDataHtml = $(el)
+        .children("article")
+        .children("section")
+        .children("div")
+        .children("section");
+
+      const listItems = $(el)
+        .children("article")
+        .children("section")
+        .children("div")
+        .children("section")
+        .children("ul")
+
+        listItems.each((idx, el) => {
+          
+        })
+        
+
+      // console.log(listItems);
+
+      // console.log(listItemsArray);
+      // get other list item value
+      // listItemsArray.forEach((el, i) => {
+      //   console.log(el);
+      //   const name = el.children("span").text();
+      //   console.log(name);
+      // });
+      // console.log(adId);
     });
-    // console.log(adsHtmlList);
-  } catch {}
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 scrapeData();
