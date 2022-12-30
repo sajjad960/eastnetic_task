@@ -3,7 +3,7 @@ const cheerio = require("cheerio");
 const fs = require("fs");
 const pretty = require("pretty");
 
-// URL of the page we want to scrape
+// URL of the portal we want to scrape
 const url = "https://www.otomoto.pl";
 
 // Geting Desire Data Of Every Ad From This Function
@@ -68,6 +68,7 @@ async function scrapeData() {
     // console.log(data);
     const $ = cheerio.load(data);
     const adsHtmlList = $(".eomulv92");
+    const ads = [];
 
     adsHtmlList.each(function (idx, el) {
       const {
@@ -80,9 +81,36 @@ async function scrapeData() {
         fuel_type,
         power,
       } = getSingleAdAllData($, el);
+      // create object with ad data
+      const adObject = {};
+      adObject.id = adId ?? null;
+      adObject.image = adImage ?? null;
+      adObject.title = adTitle ?? null;
+      adObject.price = adPrice ?? null;
+      adObject.production_date = production_date ?? null;
+      adObject.mileage = mileage ?? null;
+      adObject.fuel_type = fuel_type ?? null;
+      adObject.power = power ?? null;
+
+      // store all ads into the ads array
+      ads.push(adObject);
     });
+
+    // create json data file with those ads
+    const timeStamp = Date.now();
+    fs.writeFile(
+      `data/ads-${timeStamp}.json`,
+      JSON.stringify(ads, null, 2),
+      (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("Successfully written ads data to file");
+      }
+    );
   } catch (err) {
-    console.log(err);
+    console.log("Scraping Fail", err);
   }
 }
 
