@@ -5,7 +5,6 @@
 
 ```
 npm install
-node app.js
 ```
 
 ## Start App
