@@ -1,1 +1,1 @@
-Please open /MainTask folder for task of scraping url with node.
+Please open /MainTask folder for the task of scraping url with node.
